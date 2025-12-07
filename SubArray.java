@@ -85,44 +85,30 @@ public class SubArray {
         System.out.println("Minimum : " + min);
         System.out.println("Maximum : " + max);
     }
-
-    //Helper function to check all elements are negative
-    public static boolean isNegativeArray(int[] numbers){
-        int negativeCount = 0;
-        for(int i = 0; i < numbers.length; i++){
-            if(numbers[i] < 0){
-                negativeCount++;
-            }
-        }
-        return negativeCount == numbers.length;
-    }
     
     //Optimal approach O(n) Kadane's Algorithm
     public static void kadanes(int[] numbers){
-        int currentSum = 0;
         int maxSum = Integer.MIN_VALUE;
+        int maxCurrent = 0;
         int minSum = Integer.MAX_VALUE;
+        int minCurrent = 0;
 
-        if (isNegativeArray(numbers)) {
-            for(int i = 0; i < numbers.length; i++){
-                currentSum += numbers[i];
-                if(maxSum < currentSum) maxSum = currentSum;
-                if(minSum > currentSum) minSum = currentSum;
-            }
-        }else{
-            for(int i = 0; i < numbers.length; i++){
-                currentSum += numbers[i];
-                if(currentSum < 0) currentSum = 0;
-                if(maxSum < currentSum) maxSum = currentSum;
-                if(minSum > currentSum) minSum = currentSum;
-            }
+        for(int i = 0; i < numbers.length; i++){
+            maxCurrent += numbers[i];
+            if(maxSum < maxCurrent) maxSum = maxCurrent;
+            if(maxCurrent < 0) maxCurrent = 0;
+            
+            minCurrent += numbers[i];
+            if(minSum > minCurrent) minSum = minCurrent;
+            if(minCurrent > 0) minCurrent = 0;
         }
+        
         System.out.println("Minimum : " + minSum);
         System.out.println("Maximum : " + maxSum);
     }
 
     public static void main(String args[]){
-        int[] numbers = {-1,-2,-3,-4,-5};
+        int[] numbers = {-2,-4, -5, -3};
         kadanes(numbers);
     }
 }
