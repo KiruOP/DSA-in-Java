@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class lc3759 {
     public static int removeDuplicates(int[] nums) {
         int j = 0;
@@ -82,9 +84,29 @@ public class lc3759 {
         return countElement;
     }
 
+    // optimal approach O(nlogn) by sorting and finding kth largest element
+    public static int countElements(int[] nums, int k) {
+        int n = nums.length;
+        if (k == 0)
+            return n;
+
+        Arrays.sort(nums);
+
+        int t = nums[n - k];
+
+        // move left to find first index where nums[i] == t
+        int t_index = n - k;
+        while (t_index > 0 && nums[t_index - 1] == t) {
+            t_index--;
+        }
+
+        // all elements before t_index are < t
+        return t_index;
+    }
+
     public static void main(String[] args) {
-        int[] arr = {4,3,2,2,1,1 };
+        int[] arr = { 4, 3, 2, 2, 1, 1 }; // {1,1,2,2,3,4};
         int k = 2;
-        System.out.println("The no. of element: " + countKGreaterElements(arr, k));
+        System.out.println("The no. of element: " + countElements(arr, k));
     }
 }
